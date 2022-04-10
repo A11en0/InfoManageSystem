@@ -1,0 +1,405 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main %}
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">Tables</h3>
+					<div class="row">
+						<div class="col-md-12">
+							<!-- TABLE NO PADDING -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">课程管理</h3>
+								</div>
+
+                                <div id="toolbar">
+                                    <button id="btn_remove" class="btn btn-danger" data-toggle="modal" data-target="#delModal" disabled>
+                                        <i class="glyphicon glyphicon-remove"></i>删除记录
+                                    </button>
+                                    <div id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                                        <i class="glyphicon glyphicon-plus"></i>添加记录
+                                    </div>
+                                </div>
+
+								<div class="panel-body">
+									<table id="mytab" class="table table-striped"></table>
+								</div>
+
+                                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+                   <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">添加记录</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="addForm">
+                                    <div class="form-group">
+                                        课程名称:
+                                        <input type="text" class="form-control" id="name" placeholder="请输入课程名称">
+                                    </div>
+                                    <div class="form-group">
+                                        课程描述：
+                                        <input type="text" class="form-control" id="desc" placeholder="请输入课程描述">
+                                    </div>
+                                    <div class="form-group">
+                                        任课教师:
+                                        <select class="form-control" id="teacher" placeholder="请输入任课教师"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        班级：
+                                        <select class="form-control" id="class" placeholder="请输入班级"></select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-primary" id="addRecord">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+							</div>
+							<!-- END TABLE NO PADDING -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+{% endblock %}
+
+{% block script %}
+    <link href="https://cdn.bootcss.com/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="{% static 'assets/scripts/bootstrap-table-editable.js' %}"></script>
+
+    <script type="text/javascript">
+        window.optEvents = {
+            'click .remove': function (e, value, row, index) {
+                delRecord(row.num);
+                $('#mytab').bootstrapTable('remove', {
+                    field: 'num',
+                    values: [row.num]
+                });
+            },
+        };
+
+        $(function() {
+            $('#mytab').bootstrapTable({
+                url: "/course/data",//数据源
+                method: "post",//请求方式
+                dataField: "rows",//服务端返回数据键值 就是说记录放的键值是rows，分页时使用总记录数的键值为total
+                //height: tableHeight(),//高度调整
+                search: true,//是否搜索
+                pagination: true,//是否分页
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10,//单页记录数
+                pageList: [5, 10, 20, 30],//分页步进值
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    return{
+                        //每页多少条数据
+                        pageSize: params.limit,
+                        //请求第几页
+                        offset: params.offset,  //页码
+                        //Name:$('#search_name').val(),
+                        //Tel:$('#search_tel').val()
+                    }
+                },
+                sidePagination: "server",//服务端分页
+                contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+                dataType: "json",//期待返回数据类型
+                searchAlign: "left",//查询框对齐方式
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: true,//刷新按钮
+                //showColumns: true,//列选择按钮
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+                toolbarAlign: "right",//工具栏对齐方式
+                columns: [
+                    {
+                        title: "全选",
+                        field: "select",
+                        checkbox: true,
+                        width: 10,//宽度
+                        align: "center",//水平
+                        valign: "middle"//垂直
+                    },
+                    {
+                        field: "num",//键名
+                        title: "ID",//标题
+                        //sortable: true,//是否可排序
+                        order: "desc"//默认排序方式
+                    },
+                    {
+                        field: "name",
+                        title: "课程名称",
+                        editable: {
+                            type: 'text',
+                            title: '课程名称',
+                            validate: function (v) {
+                                if (!v) return '不能为空';
+                            }
+                        },
+                        //editable: true,
+                        titleTooltip: "this is name"
+                    },
+                    {
+                        field: "desc",
+                        title: "课程描述",
+                        editable: {
+                            type: 'text',
+                            title: '课程描述',
+
+                        }
+                    },
+                    {
+                        field: "class",
+                        title: "班级",
+                        editable: {
+                            type: 'select',
+                            title: '班级',
+                            source: function () {
+                                var result = [];
+                                $.ajax({
+                                    url: 'select_class',
+                                    async: false,
+                                    type: "get",
+                                    data: {},
+                                    success: function (data, status) {
+                                    for (var i = 0; i < data.jsondata.length; i++) {
+                                        result.push({ value: data.jsondata[i].classID,
+                                            text: data.jsondata[i].className });
+                                    }
+                                    }
+                                });
+                                return result;
+                            }
+                        }
+                    },
+                    {
+                        field: "teacher",
+                        title: "任课教师",
+                        editable: {
+                            type: 'select',
+                            title: '任课教师',
+                            source: function () {
+                                var result = [];
+                                $.ajax({
+                                    url: 'select_teacher',
+                                    async: false,
+                                    type: "get",
+                                    data: {},
+                                    success: function (data, status) {
+                                    for (var i = 0; i < data.jsondata.length; i++) {
+                                        result.push({ value: data.jsondata[i].teacherID,
+                                            text: data.jsondata[i].teacherName });
+                                    }
+                                    }
+                                });
+                                return result;
+                            }
+                        }
+                    },
+
+                    {
+                        field: "opt",
+                        title: "操作",
+                        align: "center",
+                        events: optEvents,
+                        formatter: operateFormatter,
+                    },
+
+
+                ],
+
+
+                locale: "zh-CN", //中文支持
+                detailView: false, //是否显示详情折叠
+                detailFormatter: function(index, row, element) {
+                    var html = '';
+                    $.each(row, function(key, val){
+                        html += "<p>" + key + ":" + val +  "</p>"
+                    });
+                    return html;
+                },
+
+               onEditableSave: function (field, row, oldValue, $el) {
+                   $.ajax({
+                       type: "post",
+                       url: "edit",
+                       data: row,
+                       dataType: 'JSON',
+                       success: function (data, status) {
+                           if (data.status == "success") {
+                               showToast("success","修改成功")
+                           }
+                       },
+                       error: function () {
+                           showToast("error","编辑失败")
+                       },
+                       complete: function () {
+
+                       }
+
+                   });
+               }
+            });
+        })
+
+            function operateFormatter(value, row, index) {
+                return [
+                    '<a id="remove" class="remove" href="javascript:void(0)" title="Remove">',
+                    '<i class="glyphicon glyphicon-remove" ></i>',
+                    '</a>',
+                ].join('');
+            }
+
+            $('#mytab').on('check.bs.table uncheck.bs.table ' +
+                'check-all.bs.table uncheck-all.bs.table', function () {
+                $('#btn_remove').prop('disabled', !$('#mytab').bootstrapTable('getSelections').length);
+                // save your data, here just save the current page
+                selections = getIdSelections();
+                // push or splice the selections if you want to save all data selections
+            });
+
+            function getIdSelections() {
+                return $.map($('#mytab').bootstrapTable('getSelections'), function (row) {
+                    return row.num
+                });
+            }
+
+            //批量删除操作
+            $('#btn_remove').click(function () {
+                var ids = getIdSelections();
+                //alert(ids);
+                delRecord(ids);
+                $('#mytab').bootstrapTable('remove', {
+                    field: 'num',
+                    values: ids
+                });
+                $('#btn_remove').prop('disabled', true);
+            });
+
+           function delRecord(data) {
+                //var ids = getIdSelections();
+                $.post("delCourseInfo", {'data': data.toString()}, function (result) {
+                    if (result == "ok") {
+                        showToast("success","删除成功")
+                        //$('#btn-success').click();
+                    }
+                    else
+                        showToast("error","删除失败")
+                });
+            }
+
+            $("#addRecord").click(function(){
+                var name = $('#name').val();
+                var desc = $('#desc').val();
+                var class_ = $('#class').val();
+                var teacher = $('#teacher').val();
+
+                if (name == '') {
+                    showToast("warning","课程名称不能为空!");
+                    return false;
+                }
+
+                if (teacher == 0) {
+                    showToast("warning","请选择任课教师!");
+                    return false;
+                }
+
+                if (class_ == 0) {
+                    showToast("warning","请选择班级!");
+                    return false;
+                }
+
+                var data = {name:name,desc:desc,class_:class_,teacher:teacher};
+                $.post("addCourseInfo", data, function (result) {
+                    if (result == "ok") {
+                        $('#addModal').modal('hide');
+                        var opt = {
+                            url: "data",
+                            silent: true,
+                        };
+                        $("#mytab").bootstrapTable('refresh',opt);
+                        $('#mytab').bootstrapTable('scrollTo', 'bottom');
+                        showToast("success","添加成功！");
+                    }
+                    else if(result == "have")
+                        showToast("warning","该课程已存在");
+                    else
+                        showToast("error","添加失败.");
+                });
+            });
+
+        //绑定弹出页下拉框
+        $('#btn_add').click(function () {
+            //alert("ok");
+            $.ajax({
+                url: 'select_teacher',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#teacher').html("");
+                    $('#teacher').append($("<option value=\"0\">---请选择---</option>"));
+                    for (var i = 0; i < data.jsondata.length; i++) {
+                        $('#teacher').append($("<option value=\"" + data.jsondata[i].teacherID + "\">" + data.jsondata[i].teacherName + "</option>"));
+                    }
+                }
+            });
+
+            $.ajax({
+                url: 'select_class',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#class').html("");
+                    $('#class').append($("<option value=\"0\">---请选择---</option>"));
+                    for (var i = 0; i < data.jsondata.length; i++) {
+                        $('#class').append($("<option value=\"" + data.jsondata[i].classID + "\">" + data.jsondata[i].className + "</option>"));
+                    }
+                }
+            });
+        });
+
+        $("#birth").datetimepicker({
+          minView : "day", //  选择时间时，最小可以选择到那层；默认是‘hour’也可用0表示
+          language : 'zh-CN', // 语言
+          autoclose : true, //  true:选择时间后窗口自动关闭
+          format : 'dd/mm/yyyy', // 文本框时间格式，设置为0,最后时间格式为2017-03-23 17:00:00
+          todayBtn : true, // 如果此值为true 或 "linked"，则在日期时间选择器组件的底部显示一个 "Today" 按钮用以选择当前日期。
+          startDate : new Date(1970-1-1),  // 窗口可选时间从今天开始
+          endDate : new Date()   // 窗口最大时间直至今天
+        });
+
+        //展示框
+        function showToast(type,text) {
+            Command: toastr[type](text)
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+        }
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main %}
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">Tables</h3>
+					<div class="row">
+						<div class="col-md-12">
+							<!-- TABLE NO PADDING -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">成绩汇总</h3>
+								</div>
+
+                                <div id="toolbar">
+                                    <button id="btn_remove" class="btn btn-danger" data-toggle="modal" data-target="#delModal" disabled>
+                                        <i class="glyphicon glyphicon-remove"></i>删除记录
+                                    </button>
+                                    <div id="filter" class="btn btn-primary" onclick="Search()">
+                                        <i class="glyphicon glyphicon-filter"></i>筛选
+                                    </div>
+                                </div>
+
+								<div class="panel-body">
+                                    <div class="row padding-bottom-30">
+                                        <div class="col-md-4">
+                                            学号: <select id="num" class="form-control "></select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            班级: <select id="class" class="form-control col-md-4"></select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            课程: <select id="course" class="form-control col-md-4"></select>
+                                        </div>
+                                    </div>
+									<table id="mytab" class="table table-striped"></table>
+								</div>
+							</div>
+							<!-- END TABLE NO PADDING -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript">
+        window.optEvents = {
+            'click .remove': function (e, value, row, index) {
+                delRecord(row.id);
+                $('#mytab').bootstrapTable('remove', {
+                    field: 'id',
+                    values: [row.id]
+                });
+            },
+        };
+
+        $(function() {
+            //填充下拉框
+            $.ajax({
+                url: 'fillSelect',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#course').html("");
+                    $('#course').append($("<option value=\"0\">---请选择---</option>"));
+                    for (var i = 0; i < data.jsondata.length; i++) {
+                        $('#course').append($("<option value=\"" + data.jsondata[i].courseID + "\">" + data.jsondata[i].courseName + "</option>"));
+                    }
+                }
+            });
+
+            $.ajax({
+                url: 'fillNum',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#num').html("");
+                    $('#num').append($("<option value=\"0\">---请选择---</option>"));
+                    for (var i = 0; i < data.jsondata.length; i++) {
+                        $('#num').append($("<option value=\"" + data.jsondata[i].stuID + "\">" + data.jsondata[i].stuID + "</option>"));
+                    }
+                }
+            });
+
+            $.ajax({
+                url: 'fillClass',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#class').html("");
+                    $('#class').append($("<option value=\"0\">---请选择---</option>"));
+                    for (var i = 0; i < data.jsondata.length; i++) {
+                        $('#class').append($("<option value=\"" + data.jsondata[i].classID + "\">" + data.jsondata[i].className + "</option>"));
+                    }
+                }
+            });
+
+            var itable = TableInit();
+            itable.Init();
+        });
+
+            var TableInit = function() {
+                var myTable = new Object();
+
+                myTable.Init = function () {
+                    $('#mytab').bootstrapTable({
+                        url: "data",//数据源
+                        method: "post",//请求方式
+                        dataField: "rows",//服务端返回数据键值 就是说记录放的键值是rows，分页时使用总记录数的键值为total
+                        //height: tableHeight(),//高度调整
+                        search: true,//是否搜索
+                        pagination: true,//是否分页
+                        pageNumber: 1, //初始化加载第一页，默认第一页
+                        pageSize: 10,//单页记录数
+                        pageList: [5, 10, 20, 30],//分页步进值
+                        queryParamsType: "limit",//查询参数组织方式
+                        queryParams: getParams,
+                        sidePagination: "server",//服务端分页
+                        contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+                        dataType: "json",//期待返回数据类型
+                        searchAlign: "left",//查询框对齐方式
+                        searchOnEnterKey: false,//回车搜索
+                        showRefresh: true,//刷新按钮
+                        showColumns: true,//列选择按钮
+                        buttonsAlign: "left",//按钮对齐方式
+                        toolbar: "#toolbar",//指定工具栏
+                        toolbarAlign: "right",//工具栏对齐方式
+                        columns: [
+                            {
+                                title: "全选",
+                                field: "select",
+                                checkbox: true,
+                                width: 10,//宽度
+                                align: "center",//水平
+                                valign: "middle"//垂直
+                            },
+                            {
+                                field: "id",//键名
+                                title: "id",//标题
+                                order: "desc"//默认排序方式
+                            },
+                            {
+                                field: "num",//键名
+                                title: "学号",//标题
+                                //sortable: true,//是否可排序
+                                order: "desc"//默认排序方式
+                            },
+                            {
+                                field: "ch_name",
+                                title: "中文名",
+                            },
+                            {
+                                field: "en_name",
+                                title: "英文名",
+                            },
+                            {
+                                field: "course",
+                                title: "课程",
+                            },
+                            {
+                                field: "score",
+                                title: "成绩",
+                            },
+                            {
+                                field: "opt",
+                                title: "操作",
+                                align: "center",
+                                events: optEvents,
+                                formatter: operateFormatter,
+                            },
+                        ],
+
+                        locale: "zh-CN", //中文支持
+                        detailView: false, //是否显示详情折叠
+                        detailFormatter: function (index, row, element) {
+                            var html = '';
+                            $.each(row, function (key, val) {
+                                html += "<p>" + row.course + ":" + val + "</p>"
+                            });
+                            return html;
+                        },
+                    });
+                };
+                return myTable;
+            };
+
+        function getParams(params) {
+            var num = $('#num').val();
+            var class_id = $('#class').val();
+            var course_id = $('#course').val();
+            if (num == '0')
+                num = '';
+            if(class_id == 0)
+                class_id = '';
+            if(course_id == 0)
+                course_id = '';
+            return {
+                //每页多少条数据
+                pageSize: params.limit,
+                //请求第几页
+                offset: params.offset,  //页码
+                num:num,
+                class_id:class_id,
+                course_id:course_id
+            }
+        }
+
+
+        function Search() {
+            $('#mytab').bootstrapTable('destroy');
+            var itable = TableInit();
+            itable.Init();
+        };
+        /*
+        function Search() {
+
+            var num = $('#num').val();
+            var class_id = $('#class').val();
+            var course_id = $('#course').val();
+            $('#mytab').bootstrapTable('destroy');
+            var itable = TableInit();
+            itable.Init();
+
+            var options = $('#mytab').bootstrapTable('refresh', {
+                query:
+                {
+                    filter:1,
+                    num:num,
+                    class_id:class_id,
+                    course_id:course_id
+                }
+            });
+        }*/
+
+            function operateFormatter(value, row, index) {
+                return [
+                    '<a id="remove" class="remove" href="javascript:void(0)" title="Remove">',
+                    '<i class="glyphicon glyphicon-remove" ></i>',
+                    '</a>',
+                ].join('');
+            }
+
+            $('#mytab').on('check.bs.table uncheck.bs.table ' +
+                'check-all.bs.table uncheck-all.bs.table', function () {
+                $('#btn_remove').prop('disabled', !$('#mytab').bootstrapTable('getSelections').length);
+                selections = getIdSelections();
+            });
+
+            function getIdSelections() {
+                return $.map($('#mytab').bootstrapTable('getSelections'), function (row) {
+                    return row.id
+                });
+            }
+
+            //批量删除操作
+            $('#btn_remove').click(function () {
+                var ids = getIdSelections();
+                //alert(ids);
+                delRecord(ids);
+                $('#mytab').bootstrapTable('remove', {
+                    field: 'id',
+                    values: ids
+                });
+                $('#btn_remove').prop('disabled', true);
+            });
+
+
+           //删除函数调用后台
+           function delRecord(data) {
+                //var ids = getIdSelections();
+                $.post("delScoreInfo", {'data': data.toString()}, function (result) {
+                    if (result == "ok") {
+                        showToast("success","删除成功")
+                        //$('#btn-success').click();
+                    }
+                    else
+                        showToast("error","删除失败")
+                });
+            }
+
+        //展示框
+        function showToast(type,text) {
+            Command: toastr[type](text)
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+        }
+    </script>
+{% endblock %}

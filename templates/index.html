@@ -1,0 +1,553 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Home</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!-- VENDOR CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/linearicons/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/chartist/css/chartist-custom.css' %}">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+
+    <link rel="stylesheet" href="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap-datetimepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/toastr/toastr.min.css' %}">
+
+    <!-- GOOGLE FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- Latest compiled and minified CSS
+    <link rel="stylesheet" href="{ static 'assets/css/bootstrap-table.css' %}">
+	<!-- ICONS -->
+    <link rel="stylesheet" href="{% static 'assets/img/apple-icon.png' %}">
+    <link rel="stylesheet" href="{% static 'assets/img/favicon.png' %}">
+
+    <!-- Javascript -->
+	<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'assets/scripts/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'assets/scripts/bootstrap-table-locale-all.min.js' %}"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="{% static 'assets/scripts/bootstrap-table-editable.js' %}"></script>
+
+    <!-- datetimepicker -->
+    <script src="{% static 'assets/scripts/bootstrap-datetimepicker.js' %}"></script>
+
+    <script src="{% static 'assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/toastr/toastr.min.js' %}"></script>
+    <script src="{% static 'assets/scripts/klorofil-common.js' %}"></script>
+
+    <style>
+        .fixed-table-pagination div.pagination,
+        .fixed-table-pagination .pagination-detail {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .fixed-table-pagination div.pagination .pagination {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href="index_bak.html"><img src="{% static 'assets/img/logo-dark.png' %}" alt="Klorofil Logo" class="img-responsive logo"></a>
+			</div>
+			<div class="container-fluid">
+				<div class="navbar-btn">
+					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+				</div>
+				<form class="navbar-form navbar-left">
+					<div class="input-group">
+						<input type="text" value="" class="form-control" placeholder="Search dashboard...">
+						<span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
+					</div>
+				</form>
+				<div class="navbar-btn navbar-btn-right">
+					<a class="btn btn-success update-pro" href="" title="Upgrade to Pro" target="_blank"><i class="fba fa-rocket '%}"></i> <span>UPGRADE TO PRO</span></a>
+				</div>
+				<div id="navbar-menu">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+								<i class="lnr lnr-alarm"></i>
+								<span class="badge bg-danger">5</span>
+							</a>
+							<ul class="dropdown-menu notifications">
+								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
+								<li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
+								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
+								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
+								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
+								<li><a href="#" class="more">See all notifications</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Basic Use</a></li>
+								<li><a href="#">Working With Data</a></li>
+								<li><a href="#">Security</a></li>
+								<li><a href="#">Troubleshooting</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'assets/img/user.png' %}" class="img-circle" alt="Avatar"> <span>Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+								<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
+								<li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+								<li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+							</ul>
+						</li>
+						<!-- <li>
+							<a class="update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+						</li> -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+						<li><a href="" class=""><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+						<li><a href="index.html" class="active"><i class="lnr lnr-dice"></i> <span>学生个人信息</span></a></li>
+						<li><a href="index.html"><i class="lnr lnr-dice"></i> <span>教师个人信息</span></a></li>
+						<li><a href="index.html"><i class="lnr lnr-dice"></i> <span>学生成绩信息</span></a></li>
+                        <li><a href="index.html"><i class="lnr lnr-dice"></i> <span>课程管理</span></a></li>
+                        <li>
+							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="subPages" class="collapse ">
+								<ul class="nav">
+									<li><a href="page-profile.html" class="">Profile</a></li>
+									<li><a href="page-login.html" class="">Login</a></li>
+									<li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
+								</ul>
+							</div>
+						</li>
+                    </ul>
+				</nav>
+			</div>
+		</div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">Tables</h3>
+					<div class="row">
+						<div class="col-md-12">
+							<!-- TABLE NO PADDING -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Student Infomation</h3>
+								</div>
+
+                                <div id="toolbar">
+                                    <button id="btn_remove" class="btn btn-danger" data-toggle="modal" data-target="#delModal" disabled>
+                                        <i class="glyphicon glyphicon-remove"></i>删除记录
+                                    </button>
+                                    <div id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                                        <i class="glyphicon glyphicon-plus"></i>添加记录
+                                    </div>
+                                </div>
+
+								<div class="panel-body">
+									<table id="mytab" class="table table-striped"></table>
+								</div>
+
+                                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+                   <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">添加记录</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="addForm">
+                                    <div class="form-group">
+                                        学号：
+                                        <br/>
+                                        <input type="text" class="form-control" id="num" placeholder="请输入学号">
+                                    </div>
+                                    <div class="form-group">
+                                        中文名：
+                                        <input type="text" class="form-control" id="ch_name" placeholder="请输入中文名">
+                                    </div>
+                                    <div class="form-group">
+                                        英文名：
+                                        <input type="text" class="form-control" id="en_name" placeholder="请输入英文名">
+                                    </div>
+                                    <div class="form-group">
+                                        国籍：
+                                        <select class="form-control" id="republic" placeholder="请输入国籍">
+                                            <option>孟加拉</option>
+                                            <option>巴基斯坦</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group">
+                                        性别：
+                                        <select class="form-control" id="sex" placeholder="请输入性别">
+                                            <option>男</option>
+                                            <option>女</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        出生日期：
+                                        <input type="text" class="form-control" id="birth" placeholder="请输入出生日期">
+                                    </div>
+                                    <div class="form-group">
+                                        班级：
+                                        <select class="form-control" id="cls_choose" placeholder="请输入班级"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        手机号码：
+                                        <input type="text" class="form-control" id="contact" placeholder="请输入手机号码">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-primary" id="addRecord">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+							</div>
+							<!-- END TABLE NO PADDING -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">Copyright &copy; 2017.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+
+    <script type="text/javascript">
+        window.optEvents = {
+            'click .remove': function (e, value, row, index) {
+                delRecord(row.num);
+                $('#mytab').bootstrapTable('remove', {
+                    field: 'num',
+                    values: [row.num]
+                });
+            },
+        };
+
+        $(function() {
+            $('#mytab').bootstrapTable({
+                url: "data",//数据源
+                method: "post",//请求方式
+                dataField: "rows",//服务端返回数据键值 就是说记录放的键值是rows，分页时使用总记录数的键值为total
+                //height: tableHeight(),//高度调整
+                search: true,//是否搜索
+                pagination: true,//是否分页
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10,//单页记录数
+                pageList: [5, 10, 20, 30],//分页步进值
+                queryParamsType: "limit",//查询参数组织方式
+                queryParams: function getParams(params) {
+                    return{
+                        //每页多少条数据
+                        pageSize: params.limit,
+                        //请求第几页
+                        offset: params.offset,  //页码
+                        //Name:$('#search_name').val(),
+                        //Tel:$('#search_tel').val()
+                    }
+                },
+                sidePagination: "server",//服务端分页
+                contentType: "application/x-www-form-urlencoded",//请求数据内容格式 默认是 application/json 自己根据格式自行服务端处理
+                dataType: "json",//期待返回数据类型
+                searchAlign: "left",//查询框对齐方式
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: true,//刷新按钮
+                //showColumns: true,//列选择按钮
+                buttonsAlign: "left",//按钮对齐方式
+                toolbar: "#toolbar",//指定工具栏
+                toolbarAlign: "right",//工具栏对齐方式
+                columns: [
+                    {
+                        title: "全选",
+                        field: "select",
+                        checkbox: true,
+                        width: 10,//宽度
+                        align: "center",//水平
+                        valign: "middle"//垂直
+                    },
+                    {
+                        field: "num",//键名
+                        title: "学号",//标题
+                        //sortable: true,//是否可排序
+                        order: "desc"//默认排序方式
+                    },
+                    {
+                        field: "ch_name",
+                        title: "中文名",
+                        editable: {
+                            type: 'text',
+                            title: '中文名',
+                            validate: function (v) {
+                                if (!v) return '不能为空';
+                            }
+                        },
+                        //sortable: true,
+                        titleTooltip: "this is name"
+                    },
+                    {
+                        field: "en_name",
+                        title: "英文名",
+                        editable: {
+                            type: 'text',
+                            title: '英文名',
+                            validate: function (v) {
+                                if (!v) return '不能为空';
+                            }
+                        },
+                        //editable: true,
+                        titleTooltip: "this is name"
+                    },
+                    {
+                        field: "republic",
+                        title: "国籍",
+                        editable: {
+                            type: 'select',
+                            title: '国籍',
+                            source:[{value:"孟加拉",text:"孟加拉"},{value:"巴基斯坦",text:"巴基斯坦"}]
+                        }
+                    },
+                    {
+                        field: "sex",
+                        title: "性别",
+                        editable: {
+                            type: 'select',
+                            title: '性别',
+                            source:[{value:"男",text:"男"},{value:"女",text:"女"}]
+                        }
+                    },
+                    {
+                        field: "birth",
+                        title: "出生日期",
+                        editable: {
+                            type: 'date',
+                            title: '出生日期'
+                        }
+                    },
+                    {
+                        field: "class",
+                        title: "班级",
+                    },
+                    {
+                        field: "contact",
+                        title: "手机号码",
+                        editable: {
+                            type: 'text',
+                            title: '手机号码',
+                            validate: function (v) {
+                                if (!v) return '不能为空';
+                            }
+                        },
+                    },
+                    {
+                        field: "opt",
+                        title: "操作",
+                        align: "center",
+                        events: optEvents,
+                        formatter: operateFormatter,
+                    },
+
+
+                ],
+
+
+                locale: "zh-CN", //中文支持
+                detailView: false, //是否显示详情折叠
+                detailFormatter: function(index, row, element) {
+                    var html = '';
+                    $.each(row, function(key, val){
+                        html += "<p>" + key + ":" + val +  "</p>"
+                    });
+                    return html;
+                },
+
+               onEditableSave: function (field, row, oldValue, $el) {
+                   $.ajax({
+                       type: "post",
+                       url: "edit",
+                       data: row,
+                       dataType: 'JSON',
+                       success: function (data, status) {
+                           if (status == "success") {
+                               showToast("success","修改成功")
+                           }
+                       },
+                       error: function () {
+                           alert('编辑失败');
+                       },
+                       complete: function () {
+
+                       }
+
+                   });
+               }
+            });
+        })
+
+            function operateFormatter(value, row, index) {
+                return [
+                    '<a id="remove" class="remove" href="javascript:void(0)" title="Remove">',
+                    '<i class="glyphicon glyphicon-remove" ></i>',
+                    '</a>',
+                ].join('');
+            }
+
+            $('#mytab').on('check.bs.table uncheck.bs.table ' +
+                'check-all.bs.table uncheck-all.bs.table', function () {
+                $('#btn_remove').prop('disabled', !$('#mytab').bootstrapTable('getSelections').length);
+                // save your data, here just save the current page
+                selections = getIdSelections();
+                // push or splice the selections if you want to save all data selections
+            });
+
+            function getIdSelections() {
+                return $.map($('#mytab').bootstrapTable('getSelections'), function (row) {
+                    return row.num
+                });
+            }
+
+            //批量删除操作
+            $('#btn_remove').click(function () {
+                var ids = getIdSelections();
+                //alert(ids);
+                delRecord(ids);
+                $('#mytab').bootstrapTable('remove', {
+                    field: 'num',
+                    values: ids
+                });
+                $('#btn_remove').prop('disabled', true);
+            });
+
+           function delRecord(data) {
+                //var ids = getIdSelections();
+                $.post("delStudInfo", {'data': data.toString()}, function (result) {
+                    if (result == "ok") {
+                        showToast("success","删除成功")
+                        //$('#btn-success').click();
+                    }
+                    else
+                        alert("fail.");
+                });
+            }
+
+            $("#addRecord").click(function(){
+                var num = $('#num').val();
+                var ch_name = $('#ch_name').val();
+                var en_name = $('#en_name').val();
+                var sex = $('#sex').val();
+                var contact = $('#contact').val();
+                var birth = $('#birth').val();
+                var republic = $('#republic').val();
+                var class_ = $('#cls_choose').val();
+                $.post("addStudInfo", {
+                    num:num,ch_name:ch_name,en_name:en_name,sex:sex,contact:contact,birth:birth,republic:republic,class:class_
+                }, function (result) {
+                    if (result == "ok") {
+                        $('#addModal').modal('hide');
+                        var opt = {
+                            url: "data",
+                            silent: true,
+                        };
+                        $("#mytab").bootstrapTable('refresh',opt);
+                        $('#mytab').bootstrapTable('scrollTo', 'bottom');
+                        showToast("success","添加成功！");
+                    }
+                    else
+                        showToast("error","添加失败.")
+                });
+            });
+
+        //绑定弹出页下拉框
+        $('#btn_add').click(function () {
+            //alert("ok");
+            $.ajax({
+                url: 'fillSelect',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#cls_choose').html("");
+                    $('#cls_choose').append($("<option value=\"0\">---请选择---</option>"));
+                    for (var i = 0; i < data.jsondata.length; i++) {
+                        $('#cls_choose').append($("<option value=\"" + data.jsondata[i].classID + "\">" + data.jsondata[i].className + "</option>"));
+                    }
+                }
+            })
+        })
+
+        $("#birth").datetimepicker({
+          minView : "day", //  选择时间时，最小可以选择到那层；默认是‘hour’也可用0表示
+          language : 'zh-CN', // 语言
+          autoclose : true, //  true:选择时间后窗口自动关闭
+          format : 'dd/mm/yyyy', // 文本框时间格式，设置为0,最后时间格式为2017-03-23 17:00:00
+          todayBtn : true, // 如果此值为true 或 "linked"，则在日期时间选择器组件的底部显示一个 "Today" 按钮用以选择当前日期。
+          startDate : new Date(1970-1-1),  // 窗口可选时间从今天开始
+          endDate : new Date()   // 窗口最大时间直至今天
+        })
+
+        //展示框
+        function showToast(type,text) {
+            Command: toastr[type](text)
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+        }
+
+        $('#republic').editableSelect(
+            {effects: 'slide' }//设置可编辑 其它可选参数default、fade
+        );
+
+    </script>
+</body>
+
+</html>

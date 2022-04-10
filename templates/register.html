@@ -1,0 +1,237 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en" class="fullscreen-bg">
+
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+	<!-- VENDOR CSS -->
+
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/linearicons/style.css' %}">
+
+	<!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+
+	<!-- GOOGLE FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+	<!-- ICONS -->
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+	<link rel="icon" type="image/png" sizes="96x96" href="{% static 'assets/img/favicon.png' %}">
+
+    <!-- Javascript -->
+	<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <style>
+    /********************************
+     * AUTHENTICATION FORMS, PAGE
+     ********************************/
+    .box {
+      -moz-box-shadow: 1px 2px 10px 0 rgba(0, 0, 0, 0.1);
+      -webkit-box-shadow: 1px 2px 10px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: 1px 2px 10px 0 rgba(0, 0, 0, 0.1);
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      width: 38%;
+      height: 600px;
+      margin: 0 auto;
+      background-color: #fff; }
+      .box:before {
+        display: inline-block;
+        vertical-align: middle;
+        *vertical-align: auto;
+        *zoom: 1;
+        *display: inline;
+        content: ' ';
+        vertical-align: middle;
+        height: 100%; }
+      .box .content {
+        display: inline-block;
+        vertical-align: middle;
+        *vertical-align: auto;
+        *zoom: 1;
+        *display: inline;
+        width: 99%;
+        vertical-align: middle; }
+      .box .left {
+        float: left;
+        width: 100%;
+        height: 100%;
+        padding: 0 30px;
+        text-align: center; }
+      .box .left:before {
+        display: inline-block;
+          vertical-align: middle;
+          *vertical-align: auto;
+          *zoom: 1;
+          *display: inline;
+          content: ' ';
+          vertical-align: middle;
+          height: 100%; }
+
+      .box .header {
+        margin-bottom: 30px;
+      }
+      .box .lead {
+          text-align: center;
+      }
+      .box .form-auth-small .btn {
+        margin-top: 20px; }
+      .box .form-auth-small .element-left {
+        float: left; }
+      .box .form-auth-small .element-right {
+        float: right; }
+      .box .form-auth-small .bottom {
+        margin-top: 20px;
+        text-align: center; }
+
+     @media screen and (min-width: 1440px) {
+        .box.lockscreen {
+          width: 35%; } }
+      @media screen and (max-width: 1279px) {
+        .box {
+          width: 90%; }
+          .box .left {
+            top: 3.3em; } }
+      @media screen and (max-width: 1023px) {
+        .box .left {
+          width: 100%;
+          position: inherit;
+          padding: 30px; }
+        .box .right {
+          display: none; } }
+      @media screen and (max-width: 992px) {
+        .box {
+          width: 70%; }
+          .box.lockscreen {
+            width: 50%;
+            padding: 40px 20px; } }
+      @media screen and (max-width: 640px) {
+        .box {
+          width: 90%; }
+          .box .content {
+            width: 95%; }
+          .box.lockscreen {
+            width: 90%; } }
+    </style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<div class="vertical-align-wrap">
+			<div class="vertical-align-middle">
+				<div class="box">
+					<div class="left">
+						<div class="content">
+							<div class="header">
+								<div class="logo text-center"><img src="{% static 'assets/img/google-logo.png' %}" style="max-width: 50%" alt="Klorofil Logo"></div>
+								<p class="lead">Register your account</p>
+							</div>
+
+                            <div id="msg-box"></div>
+
+                            <form class="form-auth-small">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="user" id="user" placeholder="请输入用户名">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="pasw" id="pasw" placeholder="请输入密码">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="re_pasw" id="re_pasw" placeholder="请输入密码">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="contact" id="contact" placeholder="请输入手机号码">
+                                </div>
+								<div class="form-group clearfix">
+                                    <!--
+									<label class="fancy-checkbox element-left">
+										<input type="checkbox">
+										<span></span>
+									</label>
+									-->
+								</div>
+								<button type="button" class="btn btn-primary btn-lg btn-block" id="btn-reg">注册</button>
+								<div class="bottom">
+									<span class="helper-text"><i class=""></i> <a href="/login">已有账户？去登录</a></span>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END WRAPPER -->
+</body>
+
+<script>
+    $('#btn-reg').click(function () {
+
+        if ($('#user').val() == '') {
+            var textd = "用户名不能为空！";
+            error_check(textd);
+            return false;
+        }
+
+        if ($('#pasw').val() == '') {
+            var textd = "密码不能为空！";
+            error_check(textd);
+            return false;
+        }
+
+        if ($('#re_pasw').val() == '') {
+            var textd = "请重复输入一次密码！";
+            //alert($('#pasw').val());
+            error_check(textd);
+            return false;
+        }
+
+        if($('#pasw').val() != $('#re_pasw').val()){
+            error_check("两次输入的密码不同");
+            return false;
+        }
+        var user = $('#user').val();
+        var pasw = $('#pasw').val();
+        var re_pasw = $('#re_pasw').val();
+        var contact = $('#contact').val();
+        data = {'username':user , 'password': pasw,'re_pasw':re_pasw,'contact':contact}
+
+        $.post("{% url 'register' %}", data, function (result) {
+            if (result == "ok") {
+                window.location.href ="{% url 'register_success' %}"
+            }
+            else if(result == "exist")
+                error_check("该用户已被注册")
+            else
+                error_check("注册失败，请稍后重试")
+
+        });
+    })
+
+        function error_check(data) {
+            $('#msg-box').append("<div class=\"alert alert-danger hidden\" id=\"msg-danger\">\n" +
+                "<button class=\"close\" type=\"button\" data-dismiss=\"alert\">\n" +
+                "</button>\n" +
+                "<p id=\"msg-content\"></p>\n" +
+                "</div>");
+            $('#msg-content').text(data);
+            $('#msg-danger').attr("class", "alert alert-danger");
+            $('#username').focus();
+            window.setTimeout(function () {
+                $('[data-dismiss="alert"]').alert('close');
+            }, 5000);
+        }
+
+
+</script>
+</html>

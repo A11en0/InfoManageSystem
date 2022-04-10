@@ -1,0 +1,165 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+	<title>留学生信息管理系统</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!-- VENDOR CSS -->
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/linearicons/style.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/chartist/css/chartist-custom.css' %}">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css'%}">
+    <link href="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="{ static 'assets/vendor/toastr/toastr.min.css' %}">-->
+
+    <!-- GOOGLE FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- Latest compiled and minified CSS
+    <link rel="stylesheet" href="{ static 'assets/css/bootstrap-table.css' }"> -->
+
+    <!-- Javascript -->
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<!--<script src="{ static 'assets/vendor/jquery/jquery.min.js'%}"></script>
+	<sfcript src="{ static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></sfcript> -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+    <!--<script src="{ static 'assets/scripts/bootstrap-table.min.js' %}"></script> -->
+
+    <style>
+        .fixed-table-pagination div.pagination,
+        .fixed-table-pagination .pagination-detail {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .fixed-table-pagination div.pagination .pagination {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+                <img src="{% static 'assets/img/google-logo.png'%}"  alt="Klorofil Logo" style="width: 100 px;height: 60px;" class="img-responsive logo">
+			</div>
+			<div class="container-fluid">
+				<div class="navbar-btn">
+					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+				</div>
+				<form class="navbar-form navbar-left">
+
+				</form>
+
+				<div id="navbar-menu">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+								<i class="lnr lnr-alarm"></i>
+								<span class="badge bg-danger"></span>
+							</a>
+							<ul class="dropdown-menu notifications">
+								<li><a href="#" class="more">See all notifications</a></li>
+							</ul>
+						</li>
+
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{% static 'assets/img/user.png' %}" class="img-circle" alt="Avatar"> <span>{{ request.user.username }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+								<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
+								<li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+								<li><a href="{% url 'logout' %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+							</ul>
+						</li>
+						<!-- <li>
+							<a class="update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+						</li> -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+                        <li>
+							<a href="#basicInfo" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>基本信息管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="basicInfo" class="collapse ">
+								<ul class="nav">
+                                    <li><a href="{% url 'class:class' %}" {% if request.path == "/class/main" %}class="active"{% endif %}><i class="lnr lnr-dice"></i> <span>班级管理</span></a></li>
+                                    <li><a href="{% url 'course:course' %}" {% if request.path == "/course/main" %}class="active"{% endif %}><i class="lnr lnr-dice"></i> <span>课程管理</span></a></li>
+								</ul>
+							</div>
+						</li>
+                        <li>
+							<a href="#teacherInfo" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>教师信息管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="teacherInfo" class="collapse ">
+								<ul class="nav">
+                                    <li><a href="{% url 'teacher:teacher' %}" {% if request.path == "/teacher/main" %}class="active"{% endif %}><i class="lnr lnr-dice"></i><span>教师列表</span></a></li>
+								</ul>
+							</div>
+						</li>
+                        <li>
+							<a href="#studentInfo" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>学生信息管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="studentInfo" class="collapse ">
+								<ul class="nav">
+								  <li><a href="{% url 'student:student' %}" {% if request.path == "/student/main" %}class="active"{% endif %}><i class="lnr lnr-dice"></i><span>学生列表</span></a></li>
+								</ul>
+							</div>
+						</li>
+                        <li>
+							<a href="#scoreInfo" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>成绩统计分析</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="scoreInfo" class="collapse ">
+								<ul class="nav">
+								  <li><a href="{% url 'studscore:studscore' %}" {% if request.path == "/studscore/main" %}class="active"{% endif %}><i class="lnr lnr-dice"></i> <span>学生成绩信息</span></a></li>
+
+								</ul>
+							</div>
+						</li>
+                        <li>
+							<a href="#scoreEntry" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>成绩登记</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="scoreEntry" class="collapse ">
+								<ul class="nav">
+								  <li><a href="{% url 'exam:exam' %}" {% if request.path == "/exam/main" %}class="active"{% endif %}><i class="lnr lnr-dice"></i> <span>考试列表</span></a></li>
+								</ul>
+							</div>
+						</li>
+
+                    </ul>
+				</nav>
+			</div>
+		</div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+        {% block main %}{% endblock %}
+
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">Copyright &copy; Google 留学生管理系统<a href="http://www.cssmoban.com/" target="_blank" title=""></a> - Author : A11en0<a href="http://www.cssmoban.com/" title="" target="_blank"></a></p>
+			</div>
+        </footer>
+	</div>
+	<!-- END WRAPPER -->
+</body>
+<!--<script src="https://cdn.bootcss.com/jQuery-slimScroll/1.3.0/jquery.slimscroll.min.js"></script>-->
+<!--<script src="{ static 'assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js'%}"></script>-->
+<!--<script src="{ static 'assets/vendor/toastr/toastr.min.js' %}"></script>-->
+<script src="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.js"></script>
+<script src="{% static 'assets/scripts/klorofil-common.js'%}"></script>
+{% block script %}{% endblock %}
+</html>
