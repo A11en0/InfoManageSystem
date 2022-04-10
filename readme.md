@@ -1,5 +1,5 @@
 # Description
-A information management system for college to maintain the student basicinfo.
+An information management system for college to maintain the student's basic information.
 
 # Environments
 - Tech Stack: Python + Django
@@ -8,7 +8,7 @@ A information management system for college to maintain the student basicinfo.
 
 # Quick Start
 1. Clone the project
-   - ``git clone xxx`
+   - `git clone git@github.com:A11en0/InfoManageSystem.git`
    
 1. Create mysql database `studSys`;
    
@@ -27,6 +27,3 @@ A information management system for college to maintain the student basicinfo.
    
    
 # Pictures
-
-
-
