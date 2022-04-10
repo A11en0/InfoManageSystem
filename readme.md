@@ -32,5 +32,10 @@ An information management system for college to maintain the student's basic inf
    `127.0.0.1:8000`
    
 # Pictures
+### Login Page
+![[login](static/login.png)
+
+### Index Page
 ![index](static/index.png)
-[[login](static/login.png)
+
+
