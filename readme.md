@@ -2,7 +2,7 @@
 An information management system for college to maintain the student's basic information.
 
 # Environments
-- Tech Stack: Python + Django
+Tech Stack: Python + Django
   - Python 3.7
   - Django 2.0.3
 
@@ -33,7 +33,7 @@ An information management system for college to maintain the student's basic inf
    
 # Pictures
 ### Login Page
-![[login](static/login.png)
+![login](static/login.png)
 
 ### Index Page
 ![index](static/index.png)
